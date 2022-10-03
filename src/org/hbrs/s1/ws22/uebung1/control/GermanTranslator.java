@@ -9,7 +9,23 @@ public class GermanTranslator implements Translator {
 	 */
 	public String translateNumber( int number ) {
 		// [ihr Source Code aus Übung 1-2]
+		try {
+			String[] array = new String[10];
+			array[0] ="eins";
+			array[1] ="zwei";
+			array[2] ="drei";
+			array[3] ="vier";
+			array[4] ="fünf";
+			array[5] ="sechs";
+			array[6] ="sieben";
+			array[7] ="acht";
+			array[8] ="neun";
+			array[9] ="zehn";
 
+			return array[number-1];
+		} catch (IndexOutOfBoundsException e){
+			System.out.println("Übersetzung der Zahl "+number+" nicht möglich " + Translator.version);
+		}
 		return null;
 	}
 
