@@ -1,4 +1,6 @@
 package org.hbrs.s1.ws22.uebung1.view;
+import org.hbrs.s1.ws22.uebung1.control.Translator;
+import org.hbrs.s1.ws22.uebung1.control.Creater;
 
 public class Client {
 
@@ -11,6 +13,9 @@ public class Client {
 			// aufgerufen werden.
 			//
 			// Strenge Implementierung gegen das Interface Translator gewuenscht!
+
+			Translator translator = Creater.createTranslator();
+			translator.translateNumber(aNumber);
 
 			System.out.println("Das Ergebnis der Berechnung: " +
 					"[das Ergebnis an dieser Stelle]"  );
