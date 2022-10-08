@@ -1,8 +1,6 @@
 package org.hbrs.s1.ws22.uebung1.Test;
 
-import org.hbrs.s1.ws22.uebung1.control.Creator;
 import org.hbrs.s1.ws22.uebung1.control.GermanTranslator;
-import org.hbrs.s1.ws22.uebung1.view.Client;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,11 +18,6 @@ public class Test {
         germanTranslator = null;
     }
 
-    @org.junit.jupiter.api.Test
-    void testPosGrenzwerte(){
-        Assertions.assertEquals("eins", germanTranslator.translateNumber(1));
-        Assertions.assertEquals("zehn", germanTranslator.translateNumber(10));
-    }
 
     @org.junit.jupiter.api.Test
     void testPosDefbereich(){
@@ -38,7 +31,7 @@ public class Test {
     }
 
     @org.junit.jupiter.api.Test
-    void testNeggroeßerZehn(){
+    void testNeggroesserZehn(){
         Assertions.assertEquals("Übersetzung der Zahl 11 nicht möglich (1.0)", germanTranslator.translateNumber(11));
     }
 
