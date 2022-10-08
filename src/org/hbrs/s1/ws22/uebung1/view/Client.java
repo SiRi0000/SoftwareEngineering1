@@ -1,8 +1,9 @@
 package org.hbrs.s1.ws22.uebung1.view;
 import org.hbrs.s1.ws22.uebung1.control.Translator;
-import org.hbrs.s1.ws22.uebung1.control.Creater;
+import org.hbrs.s1.ws22.uebung1.control.Factory;
 
 public class Client {
+
 
 		/*
 		 * Methode zur Ausgabe einer Zahl auf der Console (auch bezeichnet als CLI, Terminal)
@@ -12,13 +13,13 @@ public class Client {
 			// mit dem übergegebenen Wert der Variable aNumber
 			// aufgerufen werden.
 			//
-			// Strenge Implementierung gegen das Interface Translator gewuenscht!
+			// Strenge Implementierung gegen das Interface Translator gewuenscht! -> Variablen an Interfacetyp binden
 
-			Translator translator = Creater.createTranslator();
-			translator.translateNumber(aNumber);
+			Translator translator = Factory.createTranslator();
+			String result = translator.translateNumber(aNumber);
 
 			System.out.println("Das Ergebnis der Berechnung: " +
-					"[das Ergebnis an dieser Stelle]"  );
+					"[das Ergebnis an dieser Stelle]" + result);
 
 		}
 }
