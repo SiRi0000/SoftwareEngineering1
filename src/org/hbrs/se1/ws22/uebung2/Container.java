@@ -1,6 +1,7 @@
 package org.hbrs.se1.ws22.uebung2;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 //Funktion: Speichert Member-Objekte
@@ -14,12 +15,13 @@ public class Container {
      */
     public void addMember(Member member) throws ContainerException{
         for (Member memberSpeicher : speicher){
-            if(memberSpeicher.getID() != member.getID()){
+            if(Objects.equals(memberSpeicher.getID(), member.getID())){
                 throw new ContainerException("Das Member-Objekt mit der ID " + member.getID() +" ist bereits vorhanden!");
             }
         }
         speicher.add(member);
     }
+
 
     /**
      * @Funktion: Die Methode Loescht Member uber die uebergebende ID
@@ -28,9 +30,9 @@ public class Container {
      */
     public String deleteMember(Integer id){
         for(int i = 0; i < speicher.size(); i++){
-            if(speicher.get(i).getID() == id){
+            if(Objects.equals(speicher.get(i).getID(), id)){
                 speicher.remove(i);
-                return "Member " + id + " wurde erfolgreich entfern.";
+                return "Member " + id + " wurde erfolgreich entfernt.";
             }
         }
         return "Member " + id + " konnte nicht gefunden werden.";
@@ -41,8 +43,13 @@ public class Container {
      * @Funktion Die Methode gibt den letzten abgespeicherten Member auf der Konsole aus
      */
     public void dump(){
-        Member memberAktuell = speicher.get(speicher.size()-1);
-        System.out.println(memberAktuell.toString());
+        if (size() !=0){
+            Member memberAktuell = speicher.get(speicher.size()-1);
+            System.out.println(memberAktuell.toString());
+        } else {
+            throw new IndexOutOfBoundsException("Speicher ist Leer!");
+        }
+
     }
 
     /**
