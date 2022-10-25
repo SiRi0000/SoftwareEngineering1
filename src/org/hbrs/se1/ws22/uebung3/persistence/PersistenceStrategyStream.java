@@ -1,11 +1,19 @@
 package org.hbrs.se1.ws22.uebung3.persistence;
 
+import java.io.*;
 import java.util.List;
+import java.util.Objects;
 
-public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
+public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Member>{
 
     // URL of file, in which the objects are stored
-    private String location = "objects.ser";
+    private String location = "object.ser";//"/Users/siri2001/IdeaProjects/codesSE2022/src/org/hbrs/se1/ws22/uebung3/persistence/storage.ser";
+
+    private ObjectOutputStream oos = null; // Write all primitiv datatyp as well as java objects
+    private FileOutputStream fos = null; // write primitiv datatyp
+
+    private ObjectInputStream ois = null; // read all primitiv datatyp as well as java objects
+    private FileInputStream fis = null; //read primitiv datatyp
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -19,23 +27,35 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * In case of having problems while opening the streams, leave the code in methods load
      * and save
      */
-    public void openConnection() throws PersistenceException {
-
-    }
+    public void openConnection() throws PersistenceException {}
 
     @Override
     /**
      * Method for closing the connections to a stream
      */
-    public void closeConnection() throws PersistenceException {
-
-    }
+    public void closeConnection() throws PersistenceException {}
 
     @Override
     /**
      * Method for saving a list of Member-objects to a disk (HDD)
      */
-    public void save(List<E> member) throws PersistenceException  {
+    public void save(List<Member> member) throws PersistenceException  {
+
+        try{
+            //Writting Stream
+            fos = new FileOutputStream(location);
+            oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(member);
+
+            //close writing stream
+            oos.close();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Es wurde kein File gefunden.");
+        } catch (IOException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Es wurde kein File gefunden. Ggf. ist der Path Fehlerhaft.");
+        }
 
     }
 
@@ -45,26 +65,35 @@ public class PersistenceStrategyStream<E> implements PersistenceStrategy<E> {
      * Some coding examples come for free :-)
      * Take also a look at the import statements above ;-!
      */
-    public List<E> load() throws PersistenceException  {
-        // Some Coding hints ;-)
+    @SuppressWarnings("unchecked")
+    public List<Member> load() throws PersistenceException  {
 
-        // ObjectInputStream ois = null;
-        // FileInputStream fis = null;
-        // List<...> newListe =  null;
-        //
-        // Initiating the Stream (can also be moved to method openConnection()... ;-)
-        // fis = new FileInputStream( " a location to a file" );
-        // Tipp: Use a directory (ends with "/") to implement a negative test case ;-)
-        // ois = new ObjectInputStream(fis);
 
-        // Reading and extracting the list (try .. catch ommitted here)
-        // Object obj = ois.readObject();
+        List<Member> newListe =  null;
+        Object obj = null;
+        try {
+            //reading Stream
+            fis = new FileInputStream( location );
+            ois = new ObjectInputStream(fis);
 
-        // if (obj instanceof List<?>) {
-        //       newListe = (List) obj;
-        // return newListe
+            obj = ois.readObject();
 
-        // and finally close the streams (guess where this could be...?)
-        return null;
+            if (obj instanceof List<?>) {
+                newListe = (List<Member>) obj;
+            }
+            //close reading stream
+            ois.close();
+            fis.close();
+
+       }catch (FileNotFoundException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ImplementationNotAvailable, "Es wurde eine Methode aufgerufen, die nicht implementiert wurde!");
+        } catch (IOException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Es wurde kein File gefunden.");
+        } catch (ClassNotFoundException e) {
+            throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Etwas ging bei der Connection schief!");
+        }
+
+
+        return newListe;
     }
 }

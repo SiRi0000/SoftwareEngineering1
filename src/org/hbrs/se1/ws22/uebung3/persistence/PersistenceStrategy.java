@@ -13,11 +13,11 @@ import java.util.List;
  * 2. { load | save }  (many times)
  * 3. closeConnection
  *
- * @param <E>
+ * @param <Member>
  */
-public interface PersistenceStrategy<E> {
+public interface PersistenceStrategy<Member> {
     public void openConnection() throws PersistenceException;
     public void closeConnection() throws PersistenceException;
-    public void save(List<E> member) throws PersistenceException;
-    public List<E> load() throws PersistenceException;
+    public void save(List<Member> member) throws PersistenceException;
+    public List<Member> load() throws PersistenceException;
 }
