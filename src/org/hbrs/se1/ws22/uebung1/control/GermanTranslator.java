@@ -1,4 +1,4 @@
-package org.hbrs.s1.ws22.uebung1.control;
+package org.hbrs.se1.ws22.uebung1.control;
 
 public class GermanTranslator implements Translator {
 
@@ -24,9 +24,10 @@ public class GermanTranslator implements Translator {
 
 			return array[number-1];
 		} catch (IndexOutOfBoundsException e){
-			System.out.println("Übersetzung der Zahl "+number+" nicht möglich " + Translator.version);
+			return "Übersetzung der Zahl "+number+" nicht möglich " + "("+Translator.version+")";
+		}catch (IllegalArgumentException e){
+			return "Eingabe ungültig. Bitte einen Integer eingeben!";
 		}
-		return null;
 	}
 
 	/**
