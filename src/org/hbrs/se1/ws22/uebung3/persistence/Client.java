@@ -8,31 +8,23 @@ import java.util.Objects;
 
 //CONTROLLER
 public class Client {
-    private List<Member> speicher = Container.getContainer().getCurrentList();
-    private Main main = new Main();
+   private final Container container = Container.getContainer();
+   private final MemberView memberView = new MemberView();
 
-    /**
-     * @Funktion Die Methode erzeugt Member-Objekte
-     * @param id
-     * @return
-     * @throws ContainerException
-     */
 
-    public Member createMember(int id) throws ContainerException {
-        return new ConcreteMember(id);
-    }
+
     /**
      * @Funktion Die Methode fuegt Member ein, wenn dieser nicht bereits schon abgespeichert ist
-     * @param member
      * @throws ContainerException, wenn Member bereits gespeichert wurde
      */
-    public void addMember(Member member) throws ContainerException{
-        for (Member memberSpeicher :speicher){
-            if(Objects.equals(memberSpeicher.getID(), member.getID())){
-                throw new ContainerException("Das Member-Objekt mit der ID " + member.getID() +" ist bereits vorhanden!");
-            }
+    public void addMember(int id) throws ContainerException{
+        Member member = new ConcreteMember(id);
+        try{
+        container.addMember(member);
+        } catch (ContainerException e){
+            System.out.println("Das Member-Objekt mit der ID " + member.getID() +" ist bereits vorhanden!");
         }
-        speicher.add(member);
+
     }
 
 
@@ -42,22 +34,23 @@ public class Client {
      * @param id
      * @return String
      */
-    public String deleteMember(Integer id){
+    public void deleteMember(Integer id){
 
-        for(int i = 0; i < speicher.size(); i++){
-            if(Objects.equals(speicher.get(i).getID(), id)){
-                speicher.remove(i);
-                return "Member " + id + " wurde erfolgreich entfernt.";
-            }
+        String m = container.deleteMember(id);
+        if(m.equals("Member " + id + " wurde erfolgreich entfernt.")){
+            System.out.println("Member wure erfolgreich gelöscht");
+        } else {
+            System.out.println("Member konnt nicht gefunden werden!");
         }
-        return "Member " + id + " konnte nicht gefunden werden.";
     }
+
+
 
     /**
      * @Funktion Die methode fragt vom Container die Liste ab und übergibt diese an MemberView zur Ausgabe
      */
     public void display(){
-        MemberView.dump(Container.getContainer().getCurrentList());
+        memberView.dump(Container.getContainer().getCurrentList());
     }
 
 

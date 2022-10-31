@@ -13,7 +13,7 @@ import java.util.Objects;
 //Funktion: Speichert Member-Objekte
 public class Container {
     private ArrayList<Member> speicher = new ArrayList<>();
-    private PersistenceStrategy strategy = null;
+    private PersistenceStrategy<Member> strategy = null;
 
     /**
      * Singleton-Pattern: 2. Es wird ein statisches und privates Obrjekt der Klasse erzeugt -> Zugriff von außen nicht möglich
@@ -33,6 +33,7 @@ public class Container {
      * @return
      */
     public static Container getContainer(){
+
         return container;
     }
 
@@ -41,9 +42,43 @@ public class Container {
      * @Funktion Die Methode setzt eine Strategie auf den Container
      * @param strategy
      */
-    public void setStrategy(PersistenceStrategy strategy){
+    public void setStrategy(PersistenceStrategy<Member> strategy){
         this.strategy = strategy;
     }
+
+
+
+    /**
+     * @Funktion Die Methode fuegt Member ein, wenn dieser nicht bereits schon abgespeichert ist
+     * @param member
+     * @throws ContainerException, wenn Member bereits gespeichert wurde
+     */
+    public void addMember(Member member) throws ContainerException{
+        for (Member memberSpeicher :speicher){
+            if(Objects.equals(memberSpeicher.getID(), member.getID())){
+                throw new ContainerException("Das Member-Objekt mit der ID " + member.getID() +" ist bereits vorhanden!");
+            }
+        }
+        speicher.add(member);
+    }
+
+    /**
+     * @Funktion: Die Methode Loescht Member uber die uebergebende ID
+     * @param id
+     * @return String
+     */
+    public String deleteMember(Integer id){
+
+        for(int i = 0; i < speicher.size(); i++){
+            if(Objects.equals(speicher.get(i).getID(), id)){
+                speicher.remove(i);
+                return "Member " + id + " wurde erfolgreich entfernt.";
+            }
+        }
+        return "Member " + id + " konnte nicht gefunden werden.";
+    }
+
+
 
 
 

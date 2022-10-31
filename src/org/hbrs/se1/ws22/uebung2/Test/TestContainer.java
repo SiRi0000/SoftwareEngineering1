@@ -91,9 +91,10 @@ public class TestContainer {
         Assertions.assertEquals(3,container.size());
     }
 
-    @Test
-    void neg_testDumpBeiContainerLeer(){
-        Assertions.assertThrows(IndexOutOfBoundsException.class,()->{container.dump();});
-    }
+
+
+    //Auf null als Parameter Testen
+
+    //Try Catch um Ecxeption zu pruefen > test laeuft weiter obwohl etwas gecatch wurde
 
 }

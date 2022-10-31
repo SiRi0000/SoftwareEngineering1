@@ -1,6 +1,9 @@
 package org.hbrs.se1.ws22.uebung2;
 
+
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -38,18 +41,15 @@ public class Container {
         return "Member " + id + " konnte nicht gefunden werden.";
     }
     // Keine Traceback, keine Konsolenausgabe über den Fehler, keine Einheitlichkeit der Fehlermeldung
+    // Aenderung des Strings moeglich, dies fuehrt zu moegliche Veraenderung des Fehlers
 
     /**
-     * @Funktion Die Methode gibt den letzten abgespeicherten Member auf der Konsole aus
+     * @Funktion Die Funktion gibt die IDs der aktuell abgespeicherten Member auf die Console aus
      */
     public void dump(){
-        if (size() !=0){
-            Member memberAktuell = speicher.get(speicher.size()-1);
-            System.out.println(memberAktuell.toString());
-        } else {
-            throw new IndexOutOfBoundsException("Speicher ist Leer!");
+        for(Member i: speicher){
+            System.out.println(i.toString());
         }
-
     }
 
     /**

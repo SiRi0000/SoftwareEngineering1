@@ -8,7 +8,7 @@ public class MemberView {
     /**
      * @Funktion Die Methode gibt den letzten abgespeicherten Member auf der Konsole aus
      */
-    public static void dump(List<Member> memberList){
+    public void dump(List<Member> memberList){
         System.out.println("Ausgabe aller Memberen: ");
         // Loesung mit For each:
         for ( Member p : memberList ) {

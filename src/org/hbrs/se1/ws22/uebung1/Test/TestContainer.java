@@ -1,11 +1,11 @@
-package org.hbrs.s1.ws22.uebung1.Test;
+package org.hbrs.se1.ws22.uebung1.Test;
 
-import org.hbrs.s1.ws22.uebung1.control.GermanTranslator;
+import org.hbrs.se1.ws22.uebung1.control.GermanTranslator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 
-public class Test {
+public class TestContainer {
     GermanTranslator germanTranslator;
 
     @BeforeEach

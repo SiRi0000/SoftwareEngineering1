@@ -7,7 +7,7 @@ import java.util.Objects;
 public class PersistenceStrategyStream<Member> implements PersistenceStrategy<Member>{
 
     // URL of file, in which the objects are stored
-    private String location = "object.ser";//"/Users/siri2001/IdeaProjects/codesSE2022/src/org/hbrs/se1/ws22/uebung3/persistence/storage.ser";
+    public String location = "objects.ser";
 
     private ObjectOutputStream oos = null; // Write all primitiv datatyp as well as java objects
     private FileOutputStream fos = null; // write primitiv datatyp

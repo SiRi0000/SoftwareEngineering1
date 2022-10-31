@@ -13,12 +13,13 @@ public class TestContainer {
     Client client;
     Container container;
 
-    Member mem1;
-    Member mem2;
-    Member mem3;
+
 
     PersistenceStrategyStream<Member> stream ;
     PersistenceStrategyMongoDB<Member> mongoDB ;
+
+    Member[] member = {new ConcreteMember(1),new ConcreteMember(2),new ConcreteMember(3) };
+
 
    @BeforeEach
     void setUp() throws ContainerException {
@@ -26,26 +27,15 @@ public class TestContainer {
        client = new Client();
        container = Container.getContainer();
 
-       mem1 = client.createMember(1);
-       mem2 = client.createMember(2);
-       mem3 = client.createMember(3);
 
        stream = new PersistenceStrategyStream<>();
        mongoDB = new PersistenceStrategyMongoDB<>();
 
-   }
-   @AfterEach
-   void tearDown(){
-       main = null;
-       client = null;
-       container = null;
-       mem1 = null;
-       mem2 = null;
-       mem3 = null;
-       stream = null;
-       mongoDB = null;
-   }
+       for(Member member: member){
+           container.deleteMember(member.getID());
+       }
 
+   }
 
     @Test
     void pos_applyingPersistenceStragetyStream() throws ContainerException, PersistenceException {
@@ -55,15 +45,15 @@ public class TestContainer {
 
         //state of Container after adding Member to the List
         Assertions.assertEquals(0,container.size());
-        client.addMember(mem1);
+        client.addMember(1);
         Assertions.assertEquals(1,container.size());
-        client.addMember(mem2);
+        client.addMember(2);
         Assertions.assertEquals(2,container.size());
-        client.addMember(mem3);
+        client.addMember(3);
         Assertions.assertEquals(3,container.size());
-
         //state of Container after persistent saving
         container.store();
+
         Assertions.assertEquals(3,container.size());
 
 
@@ -80,8 +70,8 @@ public class TestContainer {
 
    @Test
     void neg_noStrategySetted(){
-       Assertions.assertThrows(PersistenceException.class, ()->container.store());
-       Assertions.assertThrows(PersistenceException.class, ()->container.load());
+       PersistenceException e = Assertions.assertThrows(PersistenceException.class, container::store); // Message kann ueberprueft werden durch e.getmassage
+       Assertions.assertThrows(PersistenceException.class, container::load); //Neue schriebtweise , ersetzt Lambda Expression
 
    }
 
@@ -89,15 +79,15 @@ public class TestContainer {
     void neg_usingPersistenceStragetyMongoDB() throws ContainerException {
        main.setStrategy(mongoDB);
 
-       client.addMember(mem1);
+       client.addMember(1);
        Assertions.assertEquals(1,container.size());
-       client.addMember(mem2);
+       client.addMember(2);
        Assertions.assertEquals(2,container.size());
-       client.addMember(mem3);
+       client.addMember(3);
        Assertions.assertEquals(3,container.size());
 
-       Assertions.assertThrows(PersistenceException.class, ()->container.store());
-       Assertions.assertThrows(PersistenceException.class, ()->container.load());
+       Assertions.assertThrows(PersistenceException.class, container::store);
+       Assertions.assertThrows(PersistenceException.class, container::load);
 
    }
 
@@ -109,17 +99,15 @@ public class TestContainer {
        //Set Strategy
        main.setStrategy(stream);
 
-       //add member to the List
-       client.addMember(mem1);
+       client.addMember(1);
        Assertions.assertEquals(1,container.size());
-       client.addMember(mem2);
+       client.addMember(2);
        Assertions.assertEquals(2,container.size());
-       client.addMember(mem3);
+       client.addMember(3);
        Assertions.assertEquals(3,container.size());
 
-
-       Assertions.assertThrows(PersistenceException.class, ()->container.store());
-       Assertions.assertThrows(PersistenceException.class, ()->container.load());
+       Assertions.assertThrows(PersistenceException.class, container::store);
+       Assertions.assertThrows(PersistenceException.class, container::load);
 
    }
 }
