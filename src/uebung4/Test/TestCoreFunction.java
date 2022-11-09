@@ -2,6 +2,8 @@ package uebung4.Test;
 
 
 
+import org.hbrs.se1.ws22.uebung2.Member;
+import org.hbrs.se1.ws22.uebung3.persistence.ConcreteMember;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,15 +28,20 @@ public class TestCoreFunction {
 
     Util util;
 
+    int[] employeeID = {20,12,89};
+
     @BeforeEach
     void setUp(){
+
+
         eingabe = new EingabeView();
         stream = new PersistenceStrategyStream<>();
         util = new Util();
 
-        for(Employee employee: list ){
-            eingabe.deleteEmployee(employee.getID());
+        for(Integer i : employeeID ){
+            eingabe.deleteEmployee(i);
         }
+
 
     }
 
@@ -52,11 +59,12 @@ public class TestCoreFunction {
         try {
             //pos_Normal_ValidInput
 
-            eingabe.addEmployee(12, "Julius", "Peterson", "Manager", "Java",2);
+            eingabe.addEmployee(20, "Julius", "Peterson", "Manager", "Java",2);
+            eingabe.addEmployee(89, "Max", "Mustermann", "Fachkraft", "MsOffice",3);
 
             //Right format
-            eingabe.addEmployee(1, "pEtEr", "sChmiDT", "mitarbeiter", "HTML", 1);
-            Employee employee = eingabe.getEmployee(1);
+            eingabe.addEmployee(12, "pEtEr", "sChmiDT", "mitarbeiter", "HTML", 1);
+            Employee employee = eingabe.getEmployee(12);
 
             assertEquals("Peter",employee.getFirstName());
             assertEquals("Schmidt",employee.getLastName());
@@ -64,29 +72,29 @@ public class TestCoreFunction {
             assertEquals("Html ",util.getExpertiseKey(employee.getExpertise()));
             assertEquals("-",employee.getDepartment());
 
-            assertEquals(2, container.size());
+            assertEquals(3, container.size());
 
             //neg_SameMemebr
 
-            ContainerException sameMember = Assertions.assertThrows(ContainerException.class, ()->eingabe.addEmployee(12, "Julius", "Peterson", "Manager", "Java",2));
-            assertEquals("Employee with ID 12 already exists!", sameMember.getMessage());
+            ContainerException sameMember = Assertions.assertThrows(ContainerException.class, ()->eingabe.addEmployee(20, "Julius", "Peterson", "Manager", "Java",2));
+            assertEquals("Employee with ID 20 already exists!", sameMember.getMessage());
             //neg_inValidInput
 
             EmployeeException s = Assertions.assertThrows(EmployeeException.class, ()-> eingabe.addEmployee(2,"123", "Mustermann","Fachkraft" , "McOffice",3));
             assertEquals("Firstname is invalid!",s.getMessage());
-            assertEquals(2, container.size());
+            assertEquals(3, container.size());
 
             EmployeeException s1 = Assertions.assertThrows(EmployeeException.class, ()-> eingabe.addEmployee(2,"Max", "123","Fachkraft" , "McOffice",3));
             assertEquals("Lastname is invalid!",s1.getMessage());
-            assertEquals(2, container.size());
+            assertEquals(3, container.size());
 
             EmployeeException s2 = Assertions.assertThrows(EmployeeException.class, ()-> eingabe.addEmployee(2,"Max", "Mustermann","123" , "McOffice",3));
             assertEquals("Role is invalid!",s2.getMessage());
-            assertEquals(2, container.size());
+            assertEquals(3, container.size());
 
             EmployeeException s3 = Assertions.assertThrows(EmployeeException.class, ()-> eingabe.addEmployee(2,"Max", "Mustermann","Fachkraft" , "123",3));
             assertEquals("Expertise is invalid!",s3.getMessage());
-            assertEquals(2, container.size());
+            assertEquals(3, container.size());
 
 
 
@@ -128,19 +136,20 @@ public class TestCoreFunction {
     void testLoadForce(){
 
         try{
-            eingabe.addEmployee(20, "Julius", "Peterson", "Manager", "Java",2);
-            eingabe.addEmployee(12, "Peter", "Schmidt", "Mitarbeiter", "Html",1);
-            eingabe.addEmployee(89, "Max", "Mustermann", "Fachkraft", "MsOffice",3);
+            eingabe.addEmployee(1, "Julius", "Peterson", "Manager", "Java",2);
+            eingabe.addEmployee(2, "Peter", "Schmidt", "Mitarbeiter", "Html",1);
+            eingabe.addEmployee(3, "Hans", "Peterson", "Manager", "Java",2);
+            eingabe.addEmployee(4, "Emily", "Schmidt", "Mitarbeiter", "Html",1);
 
-            container.store();
+            assertEquals(4,container.size());
 
-            assertEquals(3,container.size());
 
-            eingabe.addEmployee(123, "Anna", "Mueller", "Fachkraft", "MsOffice",2);
 
+
+            //Laden überschreiben (size ernidrieg sich auf 3)
             container.loadForce();
 
-            //assertEquals(3,container.size());
+            assertEquals(3,container.size());
 
 
 
@@ -154,8 +163,30 @@ public class TestCoreFunction {
 
     }
 
+
     @Test
-    void testLoadMerge(){
+    void tesLoadMerge2(){
+
+        try{
+            assertEquals(0,container.size());
+
+            //neue Employees in die liste einfügen
+            eingabe.addEmployee(10, "Julius", "Peterson", "Manager", "Java",2);
+            eingabe.addEmployee(11, "Peter", "Schmidt", "Mitarbeiter", "Html",1);
+
+            assertEquals(2,container.size());
+
+            //laden merga (size() erhöht sich auf 5)
+
+            container.loadMerge();
+
+            assertEquals(5,container.size());
+
+        }catch (EmployeeException e) {
+            e.printStackTrace();
+        } catch (ContainerException e) {
+            e.printStackTrace();
+        }
 
     }
 

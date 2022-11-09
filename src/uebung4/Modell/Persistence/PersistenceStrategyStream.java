@@ -4,16 +4,14 @@ package uebung4.Modell.Persistence;
 import java.io.*;
 import java.util.List;
 
-public class PersistenceStrategyStream<Employee> implements PersistenceStrategy<Employee> {
+public class PersistenceStrategyStream<Employee> implements PersistenceStrategy<Employee>, Serializable {
 
     // URL of file, in which the objects are stored
     public String location = "objects.ser";
 
-    private ObjectOutputStream oos = null; // Write all primitiv datatyp as well as java objects
-    private FileOutputStream fos = null; // write primitiv datatyp
 
-    private ObjectInputStream ois = null; // read all primitiv datatyp as well as java objects
-    private FileInputStream fis = null; //read primitiv datatyp
+
+
 
     // Backdoor method used only for testing purposes, if the location should be changed in a Unit-Test
     // Example: Location is a directory (Streams do not like directories, so try this out ;-)!
@@ -41,6 +39,9 @@ public class PersistenceStrategyStream<Employee> implements PersistenceStrategy<
      */
     public void save(List<Employee> employees) throws PersistenceException  {
 
+        ObjectOutputStream oos = null; // Write all primitiv datatyp as well as java objects
+        FileOutputStream fos = null; // write primitiv datatyp
+
         try{
             //Writting Stream
             fos = new FileOutputStream(location);
@@ -48,8 +49,8 @@ public class PersistenceStrategyStream<Employee> implements PersistenceStrategy<
 
             oos.writeObject(employees);
 
-            ois.close();
-            fis.close();
+            oos.close();
+            fos.close();
 
         } catch (FileNotFoundException e) {
             throw new PersistenceException(PersistenceException.ExceptionType.ConnectionNotAvailable, "Es wurde kein File gefunden.");
@@ -71,7 +72,8 @@ public class PersistenceStrategyStream<Employee> implements PersistenceStrategy<
 
         List<Employee> newListe =  null;
 
-
+        ObjectInputStream ois = null; // read all primitiv datatyp as well as java objects
+        FileInputStream fis = null; //read primitiv datatyp
         try {
 
             //reading Stream

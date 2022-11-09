@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Util {
+public class Util implements Serializable{
     Container container = Container.getContainer();
     List<Employee> list = Container.getContainer().getCurrentList();
 
