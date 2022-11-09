@@ -33,7 +33,7 @@ public class EmployeeView {
         System.out.printf("===================================================================%n");
         for(Employee employee: list){
 
-            System.out.printf("| %-6s | %-20s  %-30s |%n", employee.getID(), employee.getLastName()+", " +employee.getFirstName(), employee.printExpertise(key));
+            System.out.printf("| %-6s | %-20s  %-30s |%n", employee.getID(), employee.getLastName()+", " +employee.getFirstName(), "| "+employee.printExpertise(key));
 
         }
         System.out.printf("--------------------------------------------------------------------%n");
