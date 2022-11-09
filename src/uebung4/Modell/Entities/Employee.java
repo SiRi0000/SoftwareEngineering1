@@ -12,6 +12,7 @@ public interface Employee {
     String getDepartment();
     HashMap<String,Expertise.ExpLevevel> getExpertise();
     void setExpertise(String expert, int level) throws EmployeeException;
-    String printExpertise();
+    String printExpertise(String key);
     String toString();
+
 }

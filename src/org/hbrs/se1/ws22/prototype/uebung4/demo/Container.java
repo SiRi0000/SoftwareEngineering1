@@ -31,8 +31,10 @@ public class Container {
 	// auf das einzige Container-Objekt abzuspeichern
 	// Diese Variante sei thread-safe, so hat Hr. P. es gehört... stimmt das?
 	// Todo (Bewertung Thread-Safe)
+	// Ja, Thread Save.
 	// Nachteil dieser Variante:
 	// Todo (Nachteile der Variante)
+	//Speicher wird direkt belegt/ geladen (beim Start)
 	private static Container instance = new Container();
 	
 	// URL der Datei, in der die Objekte gespeichert werden 
@@ -50,7 +52,7 @@ public class Container {
 	 * Vorschriftsmäßiges Ueberschreiben des Konstruktors (private) gemaess Singleton-Pattern (oder?)
 	 * ToDo (Bewertung des Konstruktors)
 	 */
-	Container(){
+	private Container(){
 		liste = new ArrayList<Employee>();
 	}
 	
@@ -75,10 +77,12 @@ public class Container {
 		// Initialisierung des Eingabe-View
 		Scanner scanner = new Scanner( System.in );
 
-		while ( true ) {
 
-			// Ausgabe eines Texts zur Begruessung
-			System.out.println("Employee-Tool V1.2 by Julius P. (dedicated to all my friends)");
+		// Ausgabe eines Texts zur Begruessung
+		System.out.println("Employee-Tool V1.2 by Julius P. (dedicated to all my friends)");
+
+
+		while ( true ) {
 
 			System.out.print( "> "  );
 
@@ -125,6 +129,9 @@ public class Container {
 
 		// [Sortierung ausgelassen]
 		// Todo (Sortierung der Liste)
+
+		//java.util.Collection.sort(List)
+		// compareTo PID (Compare)
 
 		// Klassische Ausgabe ueber eine For-Each-Schleife
 		for (Employee employee : liste) {

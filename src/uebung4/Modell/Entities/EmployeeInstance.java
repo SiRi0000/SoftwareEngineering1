@@ -68,12 +68,14 @@ public class EmployeeInstance implements Employee, Serializable {
         return expertise;
     }
 
-    public String printExpertise(){
-        String e = "";
+    public String printExpertise(String key){
+
         for (Map.Entry<String, Expertise.ExpLevevel> set: expertise.entrySet()){
-         e += "| "+set.getKey() + ": " + set.getValue()+" ";
+            if(set.getKey().equalsIgnoreCase(key)){
+                return""+set.getKey() + ": " + set.getValue()+" ";
+            }
         }
-        return e;
+        return null;
     }
 
     @Override
@@ -86,6 +88,7 @@ public class EmployeeInstance implements Employee, Serializable {
            throw new EmployeeException(EmployeeException.ExceptionType.ExpertiseFull,"Three expertises have already been assigned to this member!");
        }
     }
+
 
     public String toString(){
         return getFirstName()+" " + getLastName()+ ": "+ getExpertise();

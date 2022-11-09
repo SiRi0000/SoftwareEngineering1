@@ -84,7 +84,7 @@ public class EingabeView {
     public void dumpExpertise(String key){
         List<Employee> list = util.searchExpertise(key);
         util.sortList(list);
-        employeeView.dumpExpertise(list);
+        employeeView.dumpExpertise(list,key);
     }
 
     /**
