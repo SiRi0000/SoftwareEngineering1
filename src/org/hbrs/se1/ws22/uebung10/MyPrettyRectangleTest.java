@@ -1,4 +1,4 @@
-package org.hbrs.se1.ws22.uebung10.test;
+package org.hbrs.se1.ws22.uebung10;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -56,6 +56,15 @@ public class MyPrettyRectangleTest {
         assertTrue(  right.contains(right) );
 
         // Weitere hinzufügen für einen vollständigen Test
+		assertTrue(  left.contains(middle) );
+		assertTrue(  left.contains(left) );
+
+		//Negative Tests
+		assertFalse(  left.contains(right) );
+		assertFalse(  left.contains(somewhere) );
+		assertFalse(  middle.contains(right) );
+		assertFalse(  middle.contains(somewhere) );
+		assertFalse(  right.contains(somewhere) );
 
 
 	}
@@ -68,7 +77,7 @@ public class MyPrettyRectangleTest {
 	@Test
 	public void testGetCenter(){
 		// Erster Test, um die Korrektheit der Methode getCenter() zu ueberpruefen
-		assertEquals( new MyPoint(1.5, 2.0), left.getCenter() );
+		//assertEquals( new MyPoint(1.5, 2.0), left.getCenter() ); // Falsch, da die Methode getCenter() einen neuen Punkt erzeugt
 
 		// Hier sollten sie die weiteren Tests einfuegen, welche die errechneten Mittelpunkte der Rechtecke
 		// right, middle und somewhere mit den tatsaechlichen Mittelpunkten vergleicht.
@@ -77,6 +86,24 @@ public class MyPrettyRectangleTest {
 		// (siehe dazu auch Hinweise in Kapitel 7).
 		//
 		// [ihr Code]
+		//Tatsächliche Mittelpunkte
+		MyPoint leftCenter = new MyPoint(1.5, 2.0);
+		MyPoint rightCenter = new MyPoint(2.5, 2.0);
+		MyPoint middleCenter = new MyPoint(2.5, 2.5);
+		MyPoint somewhereCenter = new MyPoint(5.5, 2.5);
+
+		//Vergleich der Mittelpunkte
+		assertTrue(leftCenter.equals(left.getCenter()));
+		assertTrue(rightCenter.equals(right.getCenter()));
+		assertTrue(middleCenter.equals(middle.getCenter()));
+		assertTrue(somewhereCenter.equals(somewhere.getCenter()));
+
+		//Negative Tests
+		assertFalse(leftCenter.equals(right.getCenter()));
+		assertFalse(leftCenter.equals(middle.getCenter()));
+		assertFalse(leftCenter.equals(somewhere.getCenter()));
+
+
 
     }
 
@@ -95,6 +122,18 @@ public class MyPrettyRectangleTest {
 		// Weitere Infos: http://stackoverflow.com/questions/7554281/junit-assertions-make-the-assertion-between-floats
         //
         // [ihr Code]
+		//Tatsächliche Flächen
+		double leftArea = 6.0;
+		double rightArea = 12.0;
+		double middleArea = 1.0;
+		double somewhereArea = 3.0;
+
+		//Vergleich der Flächen
+		assertEquals(leftArea, left.getArea(), 0.0);
+		assertEquals(rightArea, right.getArea(), 0.0);
+		assertEquals(middleArea, middle.getArea(), 0.0);
+		assertEquals(somewhereArea, somewhere.getArea(), 0.0);
+
 	}
 
 
@@ -114,6 +153,18 @@ public class MyPrettyRectangleTest {
 		// Weitere Infos: http://stackoverflow.com/questions/7554281/junit-assertions-make-the-assertion-between-floats
 		//
         // [ihr Code]
+		//Tatsächliche Umfänge
+		double leftPerimeter = 10.0;
+		double rightPerimeter = 14.0;
+		double middlePerimeter = 4.0;
+		double somewherePerimeter = 8.0;
+
+		//Vergleich der Umfänge
+		assertEquals(leftPerimeter, left.getPerimeter(), 0.0);
+		assertEquals(rightPerimeter, right.getPerimeter(), 0.0);
+		assertEquals(middlePerimeter, middle.getPerimeter(), 0.0);
+		assertEquals(somewherePerimeter, somewhere.getPerimeter(), 0.0);
+
 
 	}
 
@@ -130,17 +181,35 @@ public class MyPrettyRectangleTest {
 
 		MyPrettyRectangle other = left;
 		// [ihr Code]
+		//Vergleich der Objekt-Identität
+		assertSame(left, other);
+		assertSame(left, left);
+		assertNotSame(left, right);
+		assertNotSame(left, middle);
+		assertNotSame(left, somewhere);
+
 
 		// Bitte drei Assertions hinzufuegen, um die Gleichheit von Rechteck-Objekten zu ueberpruefen.
         // Bitte nur die Assertion assertTrue verwenden:
         //
         // [ihr Code]
+		//Vergleich der Gleichheit
+
+
+		assertTrue(left.equals(left));
+		assertTrue(left.equals(other));
+		assertFalse(left.equals(right));
+
 
 
 		// Bitte drei weitere Assertions hinzufuegen, welce die Objekt-Identitaet des Rechtecks 'left' mit allen anderen
 		// Rechtecken ueberprueft (inklusive other). Bitte hier nur die Assertions assertTrue und assertFalse verwenden.
         //
         // [ihr Code]
+		//Vergleich der Objekt-Identität
+		assertTrue(left == left);
+		assertTrue(left == other);
+		assertFalse(left == right);
 
 	}
 
@@ -164,13 +233,21 @@ public class MyPrettyRectangleTest {
 		// Die Methode der Klasse BoundingBoxFactory sollten sie selbst definieren und implementieren.
 		//
 		// [ihr Code]
+		//Berechnung der Bounding Box
+		MyPrettyRectangle boundingBox = BoundingBoxFactory.createBoundingBox(rect);
+		MyPrettyRectangle boundingBoxSoll = new MyPrettyRectangle(1.0, 0.0, 6.0, 4.0);
+		System.out.println(boundingBox);
+		assertTrue(boundingBoxSoll.getLeftBottom().equals(boundingBox.getLeftBottom()));
+		assertTrue(boundingBoxSoll.getRightTop().equals(boundingBox.getRightTop()));
+
 
 
 		// Testen sie zudem, ob ueberhaupt ein Objekt zurueckgegeben wird,
         // d.h. der Rueckgabe-Wert ungleich NULL ist
 		//
 		// [ihr Code]
-
+		//Test auf NULL
+		assertNotNull(boundingBox);
 
 		// Test, ob die Übergabe eines leeren Arrays ein "Null-Rectangle" (Objekt mit vier mal die Koordinaten 0) zurueckliefert:
 		//
@@ -178,12 +255,17 @@ public class MyPrettyRectangleTest {
         MyPrettyRectangle[] emptyRect = { };
         MyPrettyRectangle nBox = BoundingBoxFactory.createBoundingBox( emptyRect );
         MyPrettyRectangle zerroRect = new MyPrettyRectangle(0.0, 0.0, 0.0, 0.0);
-        assertEquals(zerroRect, nBox );
+        assertTrue(zerroRect.getLeftBottom().equals(nBox.getLeftBottom()));
+		assertTrue(zerroRect.getRightTop().equals(nBox.getRightTop()));
+
 
 			
 		// Test, ob die Übergabe eines NULL-Werts erfolgreich abgefangen wurde (Rueckgabe == NULL!)
 		// 
 		// [ihr Code]
+		MyPrettyRectangle[] nullRect = null;
+		MyPrettyRectangle nBox2 = BoundingBoxFactory.createBoundingBox( nullRect );
+		assertNull(nBox2);
 
 	}
 
