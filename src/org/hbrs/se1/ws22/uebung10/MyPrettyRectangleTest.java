@@ -59,12 +59,26 @@ public class MyPrettyRectangleTest {
 		assertTrue(  left.contains(middle) );
 		assertTrue(  left.contains(left) );
 
+		assertTrue(  somewhere.contains(somewhere) );
+
+
 		//Negative Tests
 		assertFalse(  left.contains(right) );
 		assertFalse(  left.contains(somewhere) );
+		assertFalse(  left.contains(right) );
+
 		assertFalse(  middle.contains(right) );
 		assertFalse(  middle.contains(somewhere) );
+		assertFalse(  middle.contains(left));
+
 		assertFalse(  right.contains(somewhere) );
+		assertFalse(  right.contains(left) );
+
+		assertFalse(  somewhere.contains(left) );
+		assertFalse(  somewhere.contains(middle) );
+		assertFalse(  somewhere.contains(right) );
+
+
 
 
 	}
@@ -234,6 +248,8 @@ public class MyPrettyRectangleTest {
 		//
 		// [ihr Code]
 		//Berechnung der Bounding Box
+		MyPrettyRectangle[] test = new MyPrettyRectangle[10];
+		MyPrettyRectangle boundingBox1 = BoundingBoxFactory.createBoundingBox(test);
 		MyPrettyRectangle boundingBox = BoundingBoxFactory.createBoundingBox(rect);
 		MyPrettyRectangle boundingBoxSoll = new MyPrettyRectangle(1.0, 0.0, 6.0, 4.0);
 		System.out.println(boundingBox);

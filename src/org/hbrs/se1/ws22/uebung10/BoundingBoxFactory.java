@@ -7,10 +7,12 @@ public class BoundingBoxFactory {
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
 
+
+
         // Find the minimum and maximum x and y values
         if(rectangles == null)  {
             return null;
-        } else if (rectangles.length == 0) {
+        } else if (size(rectangles) == 0) {
             return new MyPrettyRectangle(0, 0, 0, 0);
         }
         for (MyPrettyRectangle rectangle : rectangles) {
@@ -29,5 +31,15 @@ public class BoundingBoxFactory {
         }
 
         return new MyPrettyRectangle(minX, minY, maxX, maxY);
+    }
+
+    public static int size(MyPrettyRectangle[] rectangles){
+        int size = 0;
+        for(int i = 0; i < rectangles.length; i++){
+            if(rectangles[i] != null){
+                size++;
+            }
+        }
+        return size;
     }
 }
